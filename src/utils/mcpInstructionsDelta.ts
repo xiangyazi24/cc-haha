@@ -6,6 +6,7 @@ import type {
 } from '../services/mcp/types.js'
 import type { Message } from '../types/message.js'
 import { isEnvDefinedFalsy, isEnvTruthy } from './envUtils.js'
+import { isFirstPartyAnthropicBaseUrl } from './model/providers.js'
 
 export type McpInstructionsDelta = {
   /** Server names — for stateless-scan reconstruction. */
@@ -37,6 +38,10 @@ export type ClientSideInstruction = {
 export function isMcpInstructionsDeltaEnabled(): boolean {
   if (isEnvTruthy(process.env.CLAUDE_CODE_MCP_INSTR_DELTA)) return true
   if (isEnvDefinedFalsy(process.env.CLAUDE_CODE_MCP_INSTR_DELTA)) return false
+  // Non-first-party providers (DeepSeek, etc.) use automatic prefix caching —
+  // volatile system prompt sections break their prefix match every turn.
+  // Force delta mode so MCP instructions are announced as attachments instead.
+  if (!isFirstPartyAnthropicBaseUrl()) return true
   return (
     process.env.USER_TYPE === 'ant' ||
     getFeatureValue_CACHED_MAY_BE_STALE('tengu_basalt_3kr', false)
