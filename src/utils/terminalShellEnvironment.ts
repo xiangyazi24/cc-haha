@@ -130,7 +130,7 @@ async function captureTerminalShellEnvironment(
   return await new Promise(resolve => {
     execFile(
       shellPath,
-      ['-l', '-i', '-c', script],
+      ['-l', '-c', script],
       {
         env: captureEnv,
         timeout: TERMINAL_SHELL_ENV_TIMEOUT_MS,
