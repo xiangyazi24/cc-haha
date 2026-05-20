@@ -337,6 +337,11 @@ export function getPromptCachingEnabled(model: string): boolean {
   // Global disable takes precedence
   if (isEnvTruthy(process.env.DISABLE_PROMPT_CACHING)) return false;
 
+  // Non-first-party providers (DeepSeek, etc.) handle caching automatically
+  // via prefix matching. Anthropic cache_control markers are ignored and just
+  // add payload overhead — skip them.
+  if (!isFirstPartyAnthropicBaseUrl()) return false;
+
   // Check if we should disable for small/fast model
   if (isEnvTruthy(process.env.DISABLE_PROMPT_CACHING_HAIKU)) {
     const smallFastModel = getSmallFastModel();

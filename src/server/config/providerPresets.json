@@ -211,6 +211,25 @@
     }
   },
   {
+    "id": "uis-ollama",
+    "name": "UIS Ollama (uisai1)",
+    "baseUrl": "https://100.118.85.20",
+    "apiFormat": "openai_chat",
+    "defaultModels": {
+      "main": "llama3.1:70b",
+      "haiku": "llama3.1:70b",
+      "sonnet": "llama3.1:70b",
+      "opus": "llama3.1:70b"
+    },
+    "needsApiKey": true,
+    "websiteUrl": "",
+    "promoText": "UIS AI 服务器 (uisai1) 上的 Ollama，H100 96GB，通过 Tailscale 内网访问。API Key 从 Keychain uis-api 获取。",
+    "authStrategy": "auth_token",
+    "modelContextWindows": {
+      "llama3.1:70b": 131072
+    }
+  },
+  {
     "id": "custom",
     "name": "Custom",
     "baseUrl": "",
